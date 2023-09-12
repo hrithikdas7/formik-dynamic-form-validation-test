@@ -2,6 +2,7 @@
 
 import React from "react";
 import useProductDetails from "./useProductDetails";
+import Form from "react-bootstrap/Form";
 
 const App = () => {
   const { formik, currencies, products, addForm, removeForm } =
@@ -14,39 +15,8 @@ const App = () => {
         {formik.values.forms.map((form, index) => (
           <div key={index}>
             <div style={{ marginBottom: "10px" }}>
-              <input
-                type="text"
-                placeholder="Quantity"
-                name={`forms[${index}].quantity`}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.forms[index].quantity}
-                style={{ width: "500px", marginRight: "10px", height: "5vh" }}
-              />
-              {formik.touched.forms &&
-                formik.touched.forms[index] &&
-                formik.touched.forms[index].quantity &&
-                formik.errors.forms &&
-                formik.errors.forms[index] && (
-                  <div>{formik.errors.forms[index].quantity}</div>
-                )}
+              <Form.Label>Currency</Form.Label>
 
-              <input
-                type="text"
-                placeholder="amount"
-                name={`forms[${index}].amount`}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.forms[index].amount}
-                style={{ width: "500px", marginRight: "10px", height: "5vh" }}
-              />
-              {formik.touched.forms &&
-                formik.touched.forms[index] &&
-                formik.touched.forms[index].amount &&
-                formik.errors.forms &&
-                formik.errors.forms[index] && (
-                  <div>{formik.errors.forms[index].amount}</div>
-                )}
               <select
                 name={`forms[${index}].selectedCurrency`}
                 onChange={formik.handleChange}
@@ -69,6 +39,7 @@ const App = () => {
                   <div>{formik.errors.forms[index].selectedCurrency}</div>
                 )}
 
+              <Form.Label>Product</Form.Label>
               <select
                 name={`forms[${index}].selectedProduct`}
                 onChange={formik.handleChange}
@@ -90,6 +61,45 @@ const App = () => {
                 formik.errors.forms[index] && (
                   <div>{formik.errors.forms[index].selectedProduct}</div>
                 )}
+
+              <Form.Label>Quantity</Form.Label>
+
+              <Form.Control
+                type="text"
+                placeholder="Quantity"
+                name={`forms[${index}].quantity`}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.forms[index].quantity}
+                style={{ width: "500px", marginRight: "10px", height: "5vh" }}
+              />
+              {formik.touched.forms &&
+                formik.touched.forms[index] &&
+                formik.touched.forms[index].quantity &&
+                formik.errors.forms &&
+                formik.errors.forms[index] && (
+                  <div>{formik.errors.forms[index].quantity}</div>
+                )}
+
+              <Form.Label>Amount</Form.Label>
+
+              <Form.Control
+                type="text"
+                placeholder="amount"
+                name={`forms[${index}].amount`}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.forms[index].amount}
+                style={{ width: "500px", marginRight: "10px", height: "5vh" }}
+              />
+              {formik.touched.forms &&
+                formik.touched.forms[index] &&
+                formik.touched.forms[index].amount &&
+                formik.errors.forms &&
+                formik.errors.forms[index] && (
+                  <div>{formik.errors.forms[index].amount}</div>
+                )}
+
               {index > 0 && (
                 <button type="button" onClick={() => removeForm(index)}>
                   Remove Form
