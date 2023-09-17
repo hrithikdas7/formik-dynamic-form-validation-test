@@ -2,103 +2,133 @@
 
 import React from "react";
 import useProductDetails from "./useProductDetails";
-import Form from "react-bootstrap/Form";
-
+import SelectInput from "./utils/SelectInput";
+import TextInput from "./utils/TextInput";
 const App = () => {
   const { formik, currencies, products, addForm, removeForm } =
     useProductDetails();
 
+  const extractSelectedValue = (selectedObject) => {
+    return selectedObject ? selectedObject.value : null;
+  };
+
   return (
     <div>
       <form onSubmit={formik.handleSubmit}>
-        <h5>ProductDetais</h5>
+        <h5>Product Details</h5>
         {formik.values.forms.map((form, index) => (
           <div key={index}>
             <div style={{ marginBottom: "10px" }}>
-              <Form.Label>Currency</Form.Label>
-
-              <select
+              <SelectInput
+                label="Currency"
                 name={`forms[${index}].selectedCurrency`}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.forms[index].selectedCurrency}
-                style={{ width: "500px", marginRight: "10px", height: "5vh" }}
-              >
-                <option value="">Select Currency</option>
-                {currencies.map((currency) => (
-                  <option key={currency} value={currency}>
-                    {currency}
-                  </option>
-                ))}
-              </select>
-              {formik.touched.forms &&
-                formik.touched.forms[index] &&
-                formik.touched.forms[index].selectedCurrency &&
-                formik.errors.forms &&
-                formik.errors.forms[index] && (
-                  <div>{formik.errors.forms[index].selectedCurrency}</div>
-                )}
+                value={
+                  formik.values.forms[index].selectedCurrency
+                    ? {
+                        value: formik.values.forms[index].selectedCurrency,
+                        label: formik.values.forms[index].selectedCurrency,
+                      }
+                    : null
+                }
+               
+                options={currencies.map((currency) => ({
+                  value: currency,
+                  label: currency,
+                }))}
+                onChange={(selectedValue) =>
+                  formik.setFieldValue(
+                    `forms[${index}].selectedCurrency`,
+                    extractSelectedValue(selectedValue)
+                  )
+                }
+                onBlur={() => {
+                  formik.setFieldTouched(`forms[${index}].selectedCurrency`, true);
+                }}
+                errorMsg={
+                  formik.touched.forms &&
+                  formik.touched.forms[index] &&
+                  formik.touched.forms[index].selectedCurrency &&
+                  formik.errors.forms &&
+                  formik.errors.forms[index]
+                    ? formik.errors.forms[index].selectedCurrency
+                    : null
+                }
+              />
 
-              <Form.Label>Product</Form.Label>
-              <select
+              <SelectInput
+                label="Product"
                 name={`forms[${index}].selectedProduct`}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.forms[index].selectedProduct}
-                style={{ width: "500px", marginRight: "10px", height: "5vh" }}
-              >
-                <option value="">Select Product</option>
-                {products.map((product) => (
-                  <option key={product} value={product}>
-                    {product}
-                  </option>
-                ))}
-              </select>
-              {formik.touched.forms &&
-                formik.touched.forms[index] &&
-                formik.touched.forms[index].selectedProduct &&
-                formik.errors.forms &&
-                formik.errors.forms[index] && (
-                  <div>{formik.errors.forms[index].selectedProduct}</div>
-                )}
+                value={
+                  formik.values.forms[index].selectedProduct
+                    ? {
+                        value: formik.values.forms[index].selectedProduct,
+                        label: formik.values.forms[index].selectedProduct,
+                      }
+                    : null
+                }
+                options={products.map((product) => ({
+                  value: product,
+                  label: product,
+                }))}
+                onChange={(selectedValue) =>
+                  formik.setFieldValue(
+                    `forms[${index}].selectedProduct`,
+                    extractSelectedValue(selectedValue)
+                  )
+                }
+                onBlur={() => {
+                  formik.setFieldTouched(`forms[${index}].selectedProduct`, true);
+                }}
+                errorMsg={
+                  formik.touched.forms &&
+                  formik.touched.forms[index] &&
+                  formik.touched.forms[index].selectedProduct &&
+                  formik.errors.forms &&
+                  formik.errors.forms[index]
+                    ? formik.errors.forms[index].selectedProduct
+                    : null
+                }
+              />
 
-              <Form.Label>Quantity</Form.Label>
-
-              <Form.Control
-                type="text"
-                placeholder="Quantity"
+              <TextInput
+                label="Quantity"
                 name={`forms[${index}].quantity`}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                handleChange={(value) =>
+                  formik.setFieldValue(`forms[${index}].quantity`, value)
+                }
                 value={formik.values.forms[index].quantity}
-                style={{ width: "500px", marginRight: "10px", height: "5vh" }}
+                placeholder="Quantity"
+                handleBlur={formik.handleBlur}
+                errorMsg={
+                  formik.touched.forms &&
+                  formik.touched.forms[index] &&
+                  formik.touched.forms[index].quantity &&
+                  formik.errors.forms &&
+                  formik.errors.forms[index]
+                    ? formik.errors.forms[index].quantity
+                    : null
+                }
               />
-              {formik.touched.forms &&
-                formik.touched.forms[index] &&
-                formik.touched.forms[index].quantity &&
-                formik.errors.forms &&
-                formik.errors.forms[index] && (
-                  <div>{formik.errors.forms[index].quantity}</div>
-                )}
 
-              <Form.Label>Amount</Form.Label>
-
-              <Form.Control
-                type="text"
-                placeholder="amount"
+              <TextInput
+                label="Amount"
                 name={`forms[${index}].amount`}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
+                handleChange={(value) =>
+                  formik.setFieldValue(`forms[${index}].amount`, value)
+                }
                 value={formik.values.forms[index].amount}
-                style={{ width: "500px", marginRight: "10px", height: "5vh" }}
+                placeholder="Amount"
+                handleBlur={formik.handleBlur}
+                errorMsg={
+                  formik.touched.forms &&
+                  formik.touched.forms[index] &&
+                  formik.touched.forms[index].amount &&
+                  formik.errors.forms &&
+                  formik.errors.forms[index]
+                    ? formik.errors.forms[index].amount
+                    : null
+                }
               />
-              {formik.touched.forms &&
-                formik.touched.forms[index] &&
-                formik.touched.forms[index].amount &&
-                formik.errors.forms &&
-                formik.errors.forms[index] && (
-                  <div>{formik.errors.forms[index].amount}</div>
-                )}
 
               {index > 0 && (
                 <button type="button" onClick={() => removeForm(index)}>
